@@ -1,0 +1,8 @@
+setupRequired(pyfits 3.3+3)
+setupRequired(fitsio 0.9.8rc1+2)
+setupRequired(despymisc 0.2.3+3)
+
+envAppend(PYTHONPATH, ${PRODUCT_DIR}/python)
+envAppend(PATH, ${PRODUCT_DIR}/bin)
+
+

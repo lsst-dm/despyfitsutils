@@ -7,7 +7,7 @@
 """ Combine cats into single file """
 
 import argparse
-import despyfits.fitsutils as fitsutils
+import despyfitsutils.fitsutils as fitsutils
 
 def read_list(listname):
     """ Read input catalog names from list file """

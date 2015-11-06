@@ -7,7 +7,7 @@
 """ Split single head file into multiple files """
 
 import argparse
-import despyfits.fitsutils as fitsutils
+import despyfitsutils.fitsutils as fitsutils
 
 def read_list(listname):
     """ Read output catalog names from list file """

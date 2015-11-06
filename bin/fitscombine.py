@@ -1,6 +1,6 @@
 #!/usr/bin/env python 
 
-import despyfits
+import despyfitsutils
 import argparse
 
 if __name__ == "__main__":
@@ -17,4 +17,4 @@ if __name__ == "__main__":
                         help="Clobber output MEF fits file")
     args = parser.parse_args()
     kwargs = vars(args)
-    despyfits.makeMEF(**kwargs)
+    despyfitsutils.makeMEF(**kwargs)

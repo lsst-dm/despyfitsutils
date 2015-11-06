@@ -9,7 +9,7 @@ Specialized functions for computing metadata
 """
 
 import pyfits
-import despyfits.fitsutils as fitsutils
+import despyfitsutils.fitsutils as fitsutils
 import despymisc.create_special_metadata as spmeta
 
 
