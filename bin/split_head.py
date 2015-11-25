@@ -1,4 +1,4 @@
-#!/work/apps/RHEL6/dist/eups/packages/Linux64/python/2.7.6+2/bin/python
+#!/usr/bin/env python
 # $Id$
 # $Rev::                                  $:  # Revision of last commit.
 # $LastChangedBy::                        $:  # Author of last commit.
