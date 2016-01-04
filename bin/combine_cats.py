@@ -14,8 +14,10 @@ def read_list(listname):
     incats = []
     with open(listname, 'r') as listfh:
         incats = listfh.readlines()
-    return incats
 
+    # Strip \n from list if present
+    #return incats
+    return [f.strip() for f in incats]
 
 def main():
     """ Entry point """
