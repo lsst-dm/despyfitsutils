@@ -16,7 +16,6 @@ def read_list(listname):
         incats = listfh.readlines()
 
     # Strip \n from list if present
-    #return incats
     return [f.strip() for f in incats]
 
 def main():
