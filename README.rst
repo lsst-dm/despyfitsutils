@@ -5,6 +5,11 @@ despyfitsutils
 This package provides a python interface for reading and working with fits
 files.
 
+.. warning::
+
+   The package is a prototype and as such is subject to change and does not
+   meet LSST coding standards.
+
 ****
 
 This code is part of the Dark Energy Survey (DES) Data Management System
