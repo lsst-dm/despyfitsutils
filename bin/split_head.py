@@ -33,7 +33,7 @@ def main():
     if args['list'] is not None:
         outheads = ','.join(read_list(args['list']))
 
-    print "Splitting %s into %s" % (inhead, outheads)
+    print("Splitting %s into %s" % (inhead, outheads))
     fitsutils.splitScampHead(inhead, outheads)
 
 

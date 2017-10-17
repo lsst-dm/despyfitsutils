@@ -42,7 +42,7 @@ class makeMEF(object):
 
         # Output file exits
         if os.path.isfile(self.outname) and self.clobber is False:
-            print " [WARNING]: Output file exists, try --clobber option, no file was created"
+            print(" [WARNING]: Output file exists, try --clobber option, no file was created")
             return
 
         # Get the Pyfits version as a float
@@ -66,16 +66,16 @@ class makeMEF(object):
         for extname, hdu in zip(self.extnames, self.HDU):
 
             if self.verb:
-                print "# Adding EXTNAME=%s to HDU %s" % (extname, k)
+                print("# Adding EXTNAME=%s to HDU %s" % (extname, k))
             # Method for pyfits < 3.1
             if self.pyfitsVersion < 3.1:
                 hdu[0].header.update('EXTNAME', extname, 'Extension Name', after='NAXIS2')
-                if extname in makeMEF.DES_EXT.keys():
+                if extname in list(makeMEF.DES_EXT.keys()):
                     hdu[0].header.update('DES_EXT', makeMEF.DES_EXT[extname],
                                          'DESDM Extension Name', after='EXTNAME')
             else:
                 hdu[0].header.set('EXTNAME', extname, 'Extension Name', after='NAXIS2')
-                if extname in makeMEF.DES_EXT.keys():
+                if extname in list(makeMEF.DES_EXT.keys()):
                     hdu[0].header.set('DES_EXT', makeMEF.DES_EXT[extname],
                                       'DESDM Extension Name', after='EXTNAME')
 
@@ -88,7 +88,7 @@ class makeMEF(object):
         k = 0
         for fname in self.filenames:
             if self.verb:
-                print "# Reading %s --> HDU %s" % (fname, k)
+                print("# Reading %s --> HDU %s" % (fname, k))
             self.HDU.append(pyfits.open(fname))
             k = k + 1
         return
@@ -100,7 +100,7 @@ class makeMEF(object):
         for hdu in self.HDU:
             newhdu.append(hdu[0])# ,hdu[0].header)
         if self.verb:
-            print "# Writing to: %s" % self.outname
+            print("# Writing to: %s" % self.outname)
         newhdu.writeto(self.outname, clobber=self.clobber)
         return
 

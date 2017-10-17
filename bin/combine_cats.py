@@ -29,7 +29,7 @@ def main():
     if args['list'] is not None:
         incats = ','.join(read_list(args['list']))
 
-    print "Combining catalogs into %s" % (args['outcat'])
+    print("Combining catalogs into %s" % (args['outcat']))
     fitsutils.combine_cats(incats, args['outcat'])
 
 
