@@ -9,6 +9,7 @@
 import argparse
 import despyfitsutils.fitsutils as fitsutils
 
+
 def read_list(listname):
     """ Read input catalog names from list file """
     incats = []
@@ -17,6 +18,7 @@ def read_list(listname):
 
     # Strip \n from list if present
     return [f.strip() for f in incats]
+
 
 def main():
     """ Entry point """

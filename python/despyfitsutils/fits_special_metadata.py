@@ -112,7 +112,6 @@ def func_field(filename, hdulist=None, whichhdu=None):
     return spmeta.create_field(objectval)
 
 
-
 ######################################################################
 def func_radeg(filename, hdulist=None, whichhdu=None):
     """ return the fits header value RA in degrees """
@@ -129,7 +128,7 @@ def func_radeg(filename, hdulist=None, whichhdu=None):
         hdulist2.close()
 
     return spmeta.convert_ra_to_deg(ra)
-    
+
 
 ######################################################################
 def func_tradeg(filename, hdulist=None, whichhdu=None):
@@ -165,7 +164,7 @@ def func_decdeg(filename, hdulist=None, whichhdu=None):
         hdulist2.close()
 
     return spmeta.convert_dec_to_deg(dec)
-    
+
 
 ######################################################################
 def func_tdecdeg(filename, hdulist=None, whichhdu=None):
