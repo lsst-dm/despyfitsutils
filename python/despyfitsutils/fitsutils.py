@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+
+"""Miscellaneous generic support functions for fits files.
+"""
+
 import re
 import os
 import sys
@@ -6,16 +10,11 @@ import pyfits
 
 import despymisc.miscutils as miscutils
 
-""" Miscellaneous generic support functions for fits files """
-
 
 class makeMEF(object):
+    """A Class to create a MEF fits files using pyfits.
 
-    """
-    A Class to create a MEF fits files using pyfits, we might want to
-    migrated this to use fitsio in the future.
-
-    Felipe Menanteau, NCSA Aug 2014.
+    We might want to migrated this to use fitsio in the future.
     """
 
     # -----------------------------------
@@ -56,8 +55,8 @@ class makeMEF(object):
         return
 
     def addEXTNAME(self, **kwargs):
-        """Add a user-provided list of extension names to the MEF"""
-
+        """Add a user-provided list of extension names to the MEF.
+        """
         if len(self.extnames) != len(self.filenames):
             sys.exit("ERROR: number of extension names doesn't match filenames")
             return
@@ -83,7 +82,8 @@ class makeMEF(object):
         return
 
     def read(self, **kwargs):
-        """ Read in the HDUs using pyfits """
+        """Read in the HDUs using pyfits.
+        """
         self.HDU = []
         k = 0
         for fname in self.filenames:
@@ -94,7 +94,8 @@ class makeMEF(object):
         return
 
     def write(self, **kwargs):
-        """ Write MEF file with no Primary HDU """
+        """Write MEF file with no Primary HDU.
+        """
         newhdu = pyfits.HDUList()
 
         for hdu in self.HDU:
@@ -105,12 +106,9 @@ class makeMEF(object):
         return
 
 
-#######################################################################
 def combine_cats(incats, outcat):
+    """Combine all input catalogs (each with 3 hdus) into a single fits file.
     """
-    Combine all input catalogs (each with 3 hdus) into a single fits file
-    """
-
     # if incats is comma-separated list, split into python list
     comma_re = re.compile("\s*,\s*")
     incat_lst = comma_re.split(incats)
@@ -145,13 +143,12 @@ def combine_cats(incats, outcat):
 
 
 def splitScampHead(head_out, heads):
-    """
-    Split single SCAMP output head file into individual files
+    """Split single SCAMP output head file into individual files
+
       head_out:  SCAMP output
       head_lst:  list of filenames to use for individual files
       reqheadcount: expected number of individual head files
     """
-
     comma_re = re.compile("\s*,\s*")
     head_lst = comma_re.split(heads)
     reqheadcount = len(head_lst)
@@ -195,7 +192,6 @@ def splitScampHead(head_out, heads):
             headcount, reqheadcount))
 
 
-#######################################################################
 def get_hdr(hdulist, whichhdu):
 
     if whichhdu is None:
@@ -219,7 +215,6 @@ def get_hdr(hdulist, whichhdu):
     return hdr
 
 
-#######################################################################
 def get_hdr_value(hdulist, key, whichhdu=None):
     ukey = key.upper()
 
@@ -227,8 +222,6 @@ def get_hdr_value(hdulist, key, whichhdu=None):
     val = hdr[ukey]
 
     return val
-
-#######################################################################
 
 
 def get_hdr_extra(hdulist, key, whichhdu=None):
@@ -240,8 +233,6 @@ def get_hdr_extra(hdulist, key, whichhdu=None):
 
     return hcomment, htype
 
-#######################################################################
-
 
 def get_ldac_imhead_as_cardlist(imhead):
     data = imhead.data
@@ -251,7 +242,6 @@ def get_ldac_imhead_as_cardlist(imhead):
     return cards
 
 
-#######################################################################
 def get_ldac_imhead_as_hdr(imhead):
     hdr = pyfits.Header(get_ldac_imhead_as_cardlist(imhead))
     return hdr

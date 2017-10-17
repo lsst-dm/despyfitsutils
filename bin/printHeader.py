@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""
-Print header values to either stdout or to a file
+"""Print header values to either stdout or to a file.
 """
 
 import argparse
@@ -11,8 +10,8 @@ import fitsio
 
 
 def print_header(fitsfile, ext=0, ofileh=sys.stdout):
-    """ print header from fits file to either stdout or to a file """
-
+    """Print header from fits file to either stdout or to a file.
+    """
     hdr = fitsio.read_header(fitsfile, ext=ext)
     ofileh.write("%s" % hdr)
     ofileh.write("\n")
