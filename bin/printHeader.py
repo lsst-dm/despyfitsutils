@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-# $Id: printHeader.py 23378 2014-06-24 14:39:15Z mgower $
-# $Rev:: 23378                            $:  # Revision of last commit.
-# $LastChangedBy:: mgower                 $:  # Author of last commit.
-# $LastChangedDate:: 2014-06-24 09:39:15 #$:  # Date of last commit.
-
 """
 Print header values to either stdout or to a file
 """
