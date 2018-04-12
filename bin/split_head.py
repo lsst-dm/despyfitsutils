@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
-""" Split single head file into multiple files """
+"""Split single head file into multiple files.
+"""
 
 import argparse
 import despyfitsutils.fitsutils as fitsutils
 
+
 def read_list(listname):
-    """ Read output catalog names from list file """
+    """Read output catalog names from list file.
+    """
     outfiles = []
     with open(listname, 'r') as listfh:
         outfiles = listfh.readlines()
@@ -16,13 +19,14 @@ def read_list(listname):
 
 
 def main():
-    """ Entry point """
+    """Entry point.
+    """
     parser = argparse.ArgumentParser(description='Split single head file into multiple files')
     parser.add_argument('--in', action='store', help='head file to split')
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--list', action='store', 
+    group.add_argument('--list', action='store',
                        help='list file containing output filenames, order must match order in head file')
-    group.add_argument('--out', action='store', 
+    group.add_argument('--out', action='store',
                        help='output filenames, order must match order in head file')
 
     args = vars(parser.parse_args())   # convert dict
@@ -33,7 +37,7 @@ def main():
     if args['list'] is not None:
         outheads = ','.join(read_list(args['list']))
 
-    print "Splitting %s into %s" % (inhead, outheads)
+    print("Splitting %s into %s" % (inhead, outheads))
     fitsutils.splitScampHead(inhead, outheads)
 
 

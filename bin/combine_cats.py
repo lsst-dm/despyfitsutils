@@ -1,12 +1,14 @@
 #!/usr/bin/env python
-
-""" Combine cats into single file """
+"""Combine cats into single file.
+"""
 
 import argparse
 import despyfitsutils.fitsutils as fitsutils
 
+
 def read_list(listname):
-    """ Read input catalog names from list file """
+    """Read input catalog names from list file.
+    """
     incats = []
     with open(listname, 'r') as listfh:
         incats = listfh.readlines()
@@ -14,8 +16,10 @@ def read_list(listname):
     # Strip \n from list if present
     return [f.strip() for f in incats]
 
+
 def main():
-    """ Entry point """
+    """Entry point.
+    """
     parser = argparse.ArgumentParser(description='Combine cats into single file')
     parser.add_argument('--outcat', action='store', required=True)
     group = parser.add_mutually_exclusive_group(required=True)
@@ -28,7 +32,7 @@ def main():
     if args['list'] is not None:
         incats = ','.join(read_list(args['list']))
 
-    print "Combining catalogs into %s" % (args['outcat'])
+    print("Combining catalogs into %s" % (args['outcat']))
     fitsutils.combine_cats(incats, args['outcat'])
 
 
