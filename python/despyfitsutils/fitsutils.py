@@ -114,7 +114,7 @@ def combine_cats(incats, outcat):
     """Combine all input catalogs (each with 3 hdus) into a single fits file.
     """
     # if incats is comma-separated list, split into python list
-    comma_re = re.compile("\s*,\s*")
+    comma_re = re.compile(r"\s*,\s*")
     incat_lst = comma_re.split(incats)
 
     if miscutils.fwdebug_check(3, 'FITSUTILS_DEBUG'):
@@ -153,7 +153,7 @@ def splitScampHead(head_out, heads):
       head_lst:  list of filenames to use for individual files
       reqheadcount: expected number of individual head files
     """
-    comma_re = re.compile("\s*,\s*")
+    comma_re = re.compile(r"\s*,\s*")
     head_lst = comma_re.split(heads)
     reqheadcount = len(head_lst)
     headcount = 0
@@ -162,7 +162,7 @@ def splitScampHead(head_out, heads):
     linecount_tot = 0
     filehead = None
     for line in open(head_out, 'r'):
-        if re.match("^HISTORY   Astrometric solution by SCAMP.*", line):
+        if re.match(r"^HISTORY   Astrometric solution by SCAMP.*", line):
             if filehead != None:
                 filehead.close()
                 if miscutils.fwdebug_check(3, 'FITSUTILS_DEBUG'):
@@ -176,7 +176,7 @@ def splitScampHead(head_out, heads):
             filehead = open(head_lst[headcount], 'w')
             headcount += 1
             linecount = 0
-        elif re.match("^END\s*", line):
+        elif re.match(r"^END\s*", line):
             endcount += 1
         filehead.write(line)
         linecount += 1
