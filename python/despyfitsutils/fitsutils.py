@@ -103,7 +103,10 @@ class makeMEF(object):
             newhdu.append(hdu[0])# ,hdu[0].header)
         if self.verb:
             print("# Writing to: %s" % self.outname)
-        newhdu.writeto(self.outname, clobber=self.clobber)
+        if self.astropyVersion > 1.2:
+            newhdu.writeto(self.outname, overwrite=self.clobber)
+        else:
+            newhdu.writeto(self.outname, clobber=self.clobber)
         return
 
 
