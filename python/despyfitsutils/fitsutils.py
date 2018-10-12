@@ -6,13 +6,14 @@
 import re
 import os
 import sys
-import pyfits
+import astropy
+from astropy.io import fits
 
 import despymisc.miscutils as miscutils
 
 
 class makeMEF(object):
-    """A Class to create a MEF fits files using pyfits.
+    """A Class to create a MEF fits files using astropy.io.fits.
 
     We might want to migrated this to use fitsio in the future.
     """
@@ -44,8 +45,8 @@ class makeMEF(object):
             print(" [WARNING]: Output file exists, try --clobber option, no file was created")
             return
 
-        # Get the Pyfits version as a float
-        self.pyfitsVersion = float(".".join(pyfits.__version__.split(".")[0:2]))
+        # Get the astropy version as a float.
+        self.astropyVersion = float(".".join(astropy.__version__.split(".")[0:2]))
 
         self.read()
         if self.extnames:
@@ -66,8 +67,8 @@ class makeMEF(object):
 
             if self.verb:
                 print("# Adding EXTNAME=%s to HDU %s" % (extname, k))
-            # Method for pyfits < 3.1
-            if self.pyfitsVersion < 3.1:
+
+            if self.astropyVersion < 0.2:
                 hdu[0].header.update('EXTNAME', extname, 'Extension Name', after='NAXIS2')
                 if extname in list(makeMEF.DES_EXT.keys()):
                     hdu[0].header.update('DES_EXT', makeMEF.DES_EXT[extname],
@@ -82,27 +83,30 @@ class makeMEF(object):
         return
 
     def read(self, **kwargs):
-        """Read in the HDUs using pyfits.
+        """Read in the HDUs.
         """
         self.HDU = []
         k = 0
         for fname in self.filenames:
             if self.verb:
                 print("# Reading %s --> HDU %s" % (fname, k))
-            self.HDU.append(pyfits.open(fname))
+            self.HDU.append(fits.open(fname))
             k = k + 1
         return
 
     def write(self, **kwargs):
         """Write MEF file with no Primary HDU.
         """
-        newhdu = pyfits.HDUList()
+        newhdu = fits.HDUList()
 
         for hdu in self.HDU:
             newhdu.append(hdu[0])# ,hdu[0].header)
         if self.verb:
             print("# Writing to: %s" % self.outname)
-        newhdu.writeto(self.outname, clobber=self.clobber)
+        if self.astropyVersion > 1.2:
+            newhdu.writeto(self.outname, overwrite=self.clobber)
+        else:
+            newhdu.writeto(self.outname, clobber=self.clobber)
         return
 
 
@@ -110,19 +114,19 @@ def combine_cats(incats, outcat):
     """Combine all input catalogs (each with 3 hdus) into a single fits file.
     """
     # if incats is comma-separated list, split into python list
-    comma_re = re.compile("\s*,\s*")
+    comma_re = re.compile(r"\s*,\s*")
     incat_lst = comma_re.split(incats)
 
     if miscutils.fwdebug_check(3, 'FITSUTILS_DEBUG'):
         miscutils.fwdebug_print("Constructing hdulist object for single fits file")
     # Construct hdulist object to append hdus from individual catalogs to
-    hdulist = pyfits.HDUList()
+    hdulist = fits.HDUList()
 
     # Now append the hdus from each input catalog file to the hdulist
     for incat in incat_lst:
         if miscutils.fwdebug_check(3, 'FITSUTILS_DEBUG'):
             miscutils.fwdebug_print("Appending 3 HDUs from cat --> %s" % incat)
-        hdulist1 = pyfits.open(incat, mode='readonly')
+        hdulist1 = fits.open(incat, mode='readonly')
         hdulist.append(hdulist1[0])
         hdulist.append(hdulist1[1])
         hdulist.append(hdulist1[2])
@@ -149,7 +153,7 @@ def splitScampHead(head_out, heads):
       head_lst:  list of filenames to use for individual files
       reqheadcount: expected number of individual head files
     """
-    comma_re = re.compile("\s*,\s*")
+    comma_re = re.compile(r"\s*,\s*")
     head_lst = comma_re.split(heads)
     reqheadcount = len(head_lst)
     headcount = 0
@@ -158,7 +162,7 @@ def splitScampHead(head_out, heads):
     linecount_tot = 0
     filehead = None
     for line in open(head_out, 'r'):
-        if re.match("^HISTORY   Astrometric solution by SCAMP.*", line):
+        if re.match(r"^HISTORY   Astrometric solution by SCAMP.*", line):
             if filehead != None:
                 filehead.close()
                 if miscutils.fwdebug_check(3, 'FITSUTILS_DEBUG'):
@@ -172,7 +176,7 @@ def splitScampHead(head_out, heads):
             filehead = open(head_lst[headcount], 'w')
             headcount += 1
             linecount = 0
-        elif re.match("^END\s*", line):
+        elif re.match(r"^END\s*", line):
             endcount += 1
         filehead.write(line)
         linecount += 1
@@ -238,10 +242,10 @@ def get_ldac_imhead_as_cardlist(imhead):
     data = imhead.data
     cards = []
     for cd in data[0][0]:
-        cards.append(pyfits.Card.fromstring(cd))
+        cards.append(fits.Card.fromstring(cd))
     return cards
 
 
 def get_ldac_imhead_as_hdr(imhead):
-    hdr = pyfits.Header(get_ldac_imhead_as_cardlist(imhead))
+    hdr = fits.Header(get_ldac_imhead_as_cardlist(imhead))
     return hdr
